@@ -37,6 +37,8 @@ The base URL of the ESP32 will be `http://dc.local/` or `http://$(IP)/` if `DC_S
 
 For all requests provide the Pre-Shared-Key in the header `psk`.
 
+Note that the NFC-Tokens on the ESP32 are seeded. So if you want to insert the NFC-Token `1234abcd` you need to insert `sha256(tokenSeed + 1234abcd)` into the database.
+
 ## Open the door.
 
 **URL:** `/door/`
@@ -92,6 +94,8 @@ No data constraints.
 ```
 
 ## Delete tokens from the database.
+
+To remove `1234abcd` you need to calculate `sha256(tokenSeed + 1234abcd)` and put that into tokens.
 
 **URL:** `/token/`
 
@@ -162,6 +166,8 @@ deleteAll or tokens must be set.
 
 ## Get a hash of all tokens stored on the microcontroller.
 
+Returns a hash of all seeded NFC-Tokens in lower hexadecimal represenation sorted lexicographically.
+
 **URL:** `/token/`
 
 **Method:** `GET`
@@ -214,6 +220,9 @@ No data constraints.
 ```
 
 ## Adds/Replaces token to/in database.
+
+Note that the NFC-Tokens on the ESP32 are seeded. So if you want to insert the NFC-Token `1234abcd` you need to calculate `sha256(tokenSeed + 1234abcd)` and put that into tokens. Same goes for the token to replace.
+
 
 **URL:** `/token/`
 
