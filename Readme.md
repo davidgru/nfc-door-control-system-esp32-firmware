@@ -35,6 +35,8 @@ This project is part of the nfc-door-control-system: https://github.com/l-nn-rt/
 
 The base URL of the ESP32 will be `http://dc.local/` or `http://$(IP)/` if `DC_SERVER_SECURE=false` and `https://dc.local/` or `https://$(IP)/` if `DC_SERVER_SECURE=true`.
 
+For all requests provide the Pre-Shared-Key in the header `psk`.
+
 ## Open the door.
 
 **URL:** `/door/`
