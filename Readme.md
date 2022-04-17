@@ -30,3 +30,250 @@ This project is part of the nfc-door-control-system: https://github.com/l-nn-rt/
     * The remaining macros can be changed but it's not recommended. For example the capacity of the database can be increased but is bound by flash size.
 * Connect the ESP32 to a USB port via Micro USB cable or USB to UART bridge.
 * Use PlatformIO to upload to the esp32. To do that in vscode enter "PlatformIO: Upload" in the command palette.
+
+# API Documentation
+
+The base URL of the ESP32 will be `http://dc.local/` or `http://$(IP)/` if `DC_SERVER_SECURE=false` and `https://dc.local/` or `https://$(IP)/` if `DC_SERVER_SECURE=true`.
+
+## Open the door.
+
+**URL:** `/door/`
+
+**Method:** `POST`
+
+**Authentication required:** Yes
+
+**Data constraints:**
+
+No data constraints.
+
+### Success Response
+**Condition:** The Pre-Shared Key is valid.
+
+**Code:** `200 OK`
+
+**Content example:** `{}`
+
+### Error Response
+
+**Condition:** Invalid json/missing field.
+
+**Code:** `400 BAD REQUEST`
+
+**Content example:**
+```json
+{
+    "msg": "$(description)"
+}
+```
+
+**Condition:** The Pre-Shared Key is invalid.
+
+**Code:** `401 NOT AUTHORIZED`
+
+**Content example:**
+```json
+{
+    "msg": "$(PSK) is invalid"
+}
+```
+
+**Condition:** Internal error.
+
+**Code:** `500 INTERNAL SERVER ERROR`
+
+**Content example:**
+```json
+{
+    "msg": "$(description)"
+}
+```
+
+## Delete tokens from the database.
+
+**URL:** `/token/`
+
+**Method:** `DELETE`
+
+**Authentication required:** Yes
+
+**Data constraints**
+deleteAll or tokens must be set.
+
+| Name               | Description                                               | Type   | Optional |
+| ------------------ | --------------------------------------------------------- | ------ | -------- |
+| deleteAll          | If true reset the whole database                          | bool   | ✔️       |
+| tokens             | The tokens to delete. | List of Strings | ✔️ |
+
+**Data example (deletes 3 Tokens):**
+```json
+{
+    "deleteAll": false,
+    "tokens": [
+        "1234567",
+        "3456789",
+        "2345678"
+    ]
+}
+```
+
+### Success Response
+
+**Code**: `200 OK`
+
+**Content example:** `{}`
+
+### Error Response
+
+**Condition:** Invalid json/missing field.
+
+**Code:** `400 BAD REQUEST`
+
+**Content example:**
+```json
+{
+    "msg": "$(description)"
+}
+```
+
+**Condition:** The Pre-Shared Key is invalid.
+
+**Code:** `401 NOT AUTHORIZED`
+
+**Content example:**
+```json
+{
+    "msg": "$(PSK) is invalid"
+}
+```
+
+**Condition:** Internal error.
+
+**Code:** `500 INTERNAL SERVER ERROR`
+
+**Content example:**
+```json
+{
+    "msg": "$(description)"
+}
+```
+
+## Get a hash of all tokens stored on the microcontroller.
+
+**URL:** `/token/`
+
+**Method:** `GET`
+
+**Authentication required:** Yes
+
+**Data constraints:**
+
+No data constraints.
+
+### Success Response
+
+**Code**: `200 OK`
+
+**Content example:** `{}`
+
+### Error Response
+
+**Condition:** Invalid json/missing field.
+
+**Code:** `400 BAD REQUEST`
+
+**Content example:**
+```json
+{
+    "msg": "$(description)"
+}
+```
+
+**Condition:** The Pre-Shared Key is invalid.
+
+**Code:** `401 NOT AUTHORIZED`
+
+**Content example:**
+```json
+{
+    "msg": "$(PSK) is invalid"
+}
+```
+
+**Condition:** Internal error.
+
+**Code:** `500 INTERNAL SERVER ERROR`
+
+**Content example:**
+```json
+{
+    "msg": "$(description)"
+}
+```
+
+## Adds/Replaces token to/in database.
+
+**URL:** `/token/`
+
+**Method:** `PUT`
+
+**Authentication required:** Yes
+
+**Data constraints**
+
+| Name            | Description                                               | Type   | Optional |
+| --------------- | --------------------------------------------------------- | ------ | -------- |
+| tokens          | A list of objects, where toReplace is optional but toPut is required | List of Strings | ✔️      |
+
+**Data example:**
+```json
+{
+    "tokens": [
+        {
+            "toReplace": "1234567",
+            "toPut": "890ABCD"
+        }
+    ]
+}
+```
+
+### Success Response
+
+**Code**: `200 OK`
+
+**Content example:** `{}`
+
+### Error Response
+
+**Condition:** Invalid json/missing field.
+
+**Code:** `400 BAD REQUEST`
+
+**Content example:**
+```json
+{
+    "msg": "$(description)"
+}
+```
+
+**Condition:** The Pre-Shared Key is invalid.
+
+**Code:** `401 NOT AUTHORIZED`
+
+**Content example:**
+```json
+{
+    "msg": "$(PSK) is invalid"
+}
+```
+
+**Condition:** Internal error.
+
+**Code:** `500 INTERNAL SERVER ERROR`
+
+**Content example:**
+```json
+{
+    "msg": "$(description)"
+}
+```
