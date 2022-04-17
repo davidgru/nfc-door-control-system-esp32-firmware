@@ -1,5 +1,5 @@
 
-This project is part of the nfc-door-controll-system: https://github.com/l-nn-rt/nfc-door-controll-system
+This project is part of the nfc-door-control-system: https://github.com/l-nn-rt/nfc-door-control-system
 
 # Software requirements
 * PlatformIO to upload the software to the esp32 (We recommend PlatformIO extension for vscode)
